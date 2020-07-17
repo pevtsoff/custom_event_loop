@@ -1,2 +1,2 @@
-port_no = 5004
-conn_qty = 200
+port_no = 5005
+conn_qty = 1000

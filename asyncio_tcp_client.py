@@ -1,6 +1,6 @@
 import asyncio
 from config import port_no, conn_qty
-
+from time import time
 
 async def connect_client():
     reader, writer = await asyncio.open_connection('localhost', port_no)
@@ -18,15 +18,12 @@ async def run_multiple_clients():
     tasks = []
     
     for ind in range(conn_qty):
-        tasks.append(asyncio.create_task(connect_client()))
+        tasks.append(connect_client())
     
-    done, pending = await asyncio.wait(tasks, timeout=300)
-    
-    print(f'done: {done}')
-    print(f'pending: {pending}')
-    for d in done:
-        print(f'result is {d.result()}')
+    await asyncio.gather(*tasks)
 
     
 if __name__ == '__main__':
+    start = time()
     asyncio.run(run_multiple_clients())
+    print(f'it took {time() - start} secs')
